@@ -31,8 +31,20 @@ images/
 
 ## 两种上传方式
 
-**方式 A · PicGo（日常，推荐）**：拖图进 PicGo → 自动上传到本仓库 → 剪贴板里得到 jsDelivr 链接。上传后本地仓库要 `git pull` 同步一次（PicGo 是通过 API 直接提交到 GitHub 的）。
+**方式 A · 命令行脚本（推荐，已实测可用）**：在博客项目里跑
 
-**方式 B · git push（批量）**：把文件放进对应目录 → `git add . && git commit -m "add xxx" && git push`。
+```powershell
+node scripts/upload-to-github.mjs ./图.webp --dir images/covers --name chapter-01.webp
+```
+
+自动拿 `gh auth token`，上传完直接打印 jsDelivr 链接。重名会拒绝（防止覆盖）。
+
+**方式 B · PicGo（可选，可视化）**：拖图进 PicGo → 自动上传到本仓库 → 剪贴板得到链接。
+配置：仓库 `thea742/blog-images`、分支 `main`、存储路径 `images/`、
+自定义域名 `https://cdn.jsdelivr.net/gh/thea742/blog-images@main`，token 用 `gh auth token` 取。
+> 部分机器上 PicGo 会因 Electron 被系统安全策略拦截而启动失败（详见博客 `docs/图床与PicGo.md`），
+> 这时就用方式 A，功能一样。
+
+无论哪种方式，**上传后本地 `git pull` 一次**保持备份同步，别删本地这份。
 
 无论哪种方式，**本地这份仓库就是备份**，别删。
